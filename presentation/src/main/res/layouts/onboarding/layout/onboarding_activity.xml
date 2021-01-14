@@ -4,11 +4,11 @@
 
     <data>
 
-        <import type="com.amaringo.presentation.feature.onboarding.OnboardingViewModel" />
+        <import type="android.view.View.OnClickListener" />
 
         <variable
-            name="viewModel"
-            type="OnboardingViewModel" />
+            name="onContinue"
+            type="OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:background="@drawable/main_button_background"
-            android:onClick="@{_ -> viewModel.onContinue()}"
+            android:onClick="@{onContinue}"
             android:padding="8dp"
             android:text="@string/onboarding_button"
             android:textColor="@color/white"
