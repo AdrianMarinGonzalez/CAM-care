@@ -9,6 +9,7 @@ import org.koin.core.qualifier.named
 val centerListModule = module {
 
     factory { GetCentersUseCase(
+        get(),
         get(qualifier = named("MAIN_SCHEDULER")),
         get(qualifier = named("IO_SCHEDULER"))
     )}

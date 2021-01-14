@@ -6,6 +6,10 @@ import com.amaringo.presentation.base.BaseViewModel
 
 class CenterCategoryListViewModel(val getCentersUseCase: GetCentersUseCase): BaseViewModel() {
 
+    fun getCenters() {
+
+    }
+
     override fun onDestroy() {
         getCentersUseCase.destroy()
     }

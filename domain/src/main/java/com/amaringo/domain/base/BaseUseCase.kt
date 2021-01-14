@@ -1,7 +1,7 @@
 package com.amaringo.domain.base
 
+import io.reactivex.Observable
 import io.reactivex.Scheduler
-import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
 
@@ -9,7 +9,7 @@ open class BaseUseCase constructor(private val observeScheduler: Scheduler, priv
 
     private var disposable: Disposable? = null
 
-    fun <T> createSubscription(a: Single<T>, subscriber: Subscriber<T>) {
+    fun <T> createSubscription(a: Observable<T>, subscriber: Subscriber<T>) {
         disposable = a.observeOn(observeScheduler)
             .subscribeOn(subscribeScheduler)
             .subscribe(
