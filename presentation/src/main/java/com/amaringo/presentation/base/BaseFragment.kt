@@ -8,10 +8,6 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import com.amaringo.presentation.common.addLifecyclerObserver
-import com.amaringo.presentation.model.ScreenFlowState
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 abstract class BaseFragment<V: BaseViewModel, T : ViewDataBinding> : Fragment() {

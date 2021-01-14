@@ -1,6 +1,7 @@
 package com.amaringo.presentation.base
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.NavHostFragment
 import com.amaringo.presentation.R
@@ -16,6 +17,7 @@ class MainActivity: BaseActivity<MainActivityBinding>() {
     }
 
     override fun initViews() {
+        Log.i("FRAGMENT", "FRAGMENT")
         getNavHost()?.navController?.apply {
             setGraph(navInflater.inflate(R.navigation.main_graph), Bundle())
         }
