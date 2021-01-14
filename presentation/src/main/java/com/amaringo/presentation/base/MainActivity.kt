@@ -17,7 +17,6 @@ class MainActivity: BaseActivity<MainActivityBinding>() {
     }
 
     override fun initViews() {
-        Log.i("FRAGMENT", "FRAGMENT")
         getNavHost()?.navController?.apply {
             setGraph(navInflater.inflate(R.navigation.main_graph), Bundle())
         }

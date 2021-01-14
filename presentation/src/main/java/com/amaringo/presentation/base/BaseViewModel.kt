@@ -10,4 +10,5 @@ abstract class BaseViewModel: ViewModel() {
     protected var _screenState = MutableLiveData<ScreenFlowState>()
     val screenState: LiveData<ScreenFlowState> = _screenState
 
+    open fun onDestroy() {}
 }

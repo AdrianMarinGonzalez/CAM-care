@@ -8,6 +8,8 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import org.koin.core.context.loadKoinModules
+import org.koin.core.module.Module
 
 
 abstract class BaseFragment<V: BaseViewModel, T : ViewDataBinding> : Fragment() {
@@ -15,7 +17,7 @@ abstract class BaseFragment<V: BaseViewModel, T : ViewDataBinding> : Fragment() 
     protected lateinit var dataBinding: T
     protected lateinit var viewModel: V
 
-    abstract fun injectFeatures()
+    abstract fun getInjectionModules(): List<Module>
 
     @LayoutRes
     abstract fun getLayoutId(): Int
@@ -26,7 +28,7 @@ abstract class BaseFragment<V: BaseViewModel, T : ViewDataBinding> : Fragment() 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectFeatures()
+        loadKoinModules(mainModule + getInjectionModules())
     }
 
     override fun onCreateView(
@@ -43,6 +45,10 @@ abstract class BaseFragment<V: BaseViewModel, T : ViewDataBinding> : Fragment() 
             setupObservers()
         }.root
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.onDestroy()
+    }
     private fun setupObservers() {
 
     }

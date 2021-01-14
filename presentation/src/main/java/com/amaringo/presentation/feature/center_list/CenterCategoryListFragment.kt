@@ -16,9 +16,7 @@ class CenterCategoryListFragment: BaseFragment<CenterCategoryListViewModel, Cent
 
     override fun getLayoutId() = R.layout.center_list_fragment
 
-    override fun injectFeatures() {
-        loadKoinModules(centerListModule)
-    }
+    override fun getInjectionModules() = listOf(centerListModule)
 
     override fun initViews() {
     }
