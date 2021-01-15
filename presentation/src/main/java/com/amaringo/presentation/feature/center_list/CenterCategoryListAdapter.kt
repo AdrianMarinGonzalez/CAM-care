@@ -8,7 +8,7 @@ import com.amaringo.presentation.R
 import com.amaringo.presentation.feature.center_list.model.CenterCategory
 
 
-class CenterCategoryListAdapter(private var centers: List<CenterCategory>): RecyclerView.Adapter<CenterCategoryViewHolder>() {
+class CenterCategoryListAdapter(private var centers: MutableList<CenterCategory>): RecyclerView.Adapter<CenterCategoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = CenterCategoryViewHolder(
         DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.center_list_item_layout, parent, false)
@@ -18,5 +18,10 @@ class CenterCategoryListAdapter(private var centers: List<CenterCategory>): Recy
 
     override fun onBindViewHolder(holder: CenterCategoryViewHolder, position: Int) {
         holder.bind(centers[position])
+    }
+
+    fun update(updates: MutableList<CenterCategory>) {
+        centers = updates
+        notifyDataSetChanged()
     }
 }

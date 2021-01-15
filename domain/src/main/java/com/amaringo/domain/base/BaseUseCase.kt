@@ -13,16 +13,16 @@ open class BaseUseCase constructor(private val observeScheduler: Scheduler, priv
         disposable = a.observeOn(observeScheduler)
             .subscribeOn(subscribeScheduler)
             .subscribe(
-                { subscriber.onComplete() },
+                { subscriber.onNext(it) },
                 { e -> subscriber.onError(e) }
             )
     }
 
     fun destroy() = disposable?.dispose()
+}
 
-    class Subscriber<T> : DisposableObserver<T>() {
-        override fun onNext(t: T) {}
-        override fun onError(e: Throwable) {}
-        override fun onComplete() {}
-    }
+open class Subscriber<T> : DisposableObserver<T>() {
+    override fun onNext(t: T) {}
+    override fun onError(e: Throwable) {}
+    override fun onComplete() {}
 }

@@ -1,87 +1,34 @@
 package com.amaringo.data.carecenter.network
 
-import com.amaringo.data.carecenter.network.model.GetCentersBody
-import com.amaringo.data.carecenter.network.model.GetCentersResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.amaringo.data.carecenter.network.model.CenterDataMapper
+import com.amaringo.domain.model.CenterCategoryDataModel
+import io.reactivex.Observable
 
 
-class CentersServiceImpl constructor(private val apiClient: CentersApi) : CentersService {
+class CentersServiceImpl constructor(
+    apiClient: APIClient,
+    private val mapper: CenterDataMapper
+) : CentersService {
 
-    override fun getSeniorCenters(zone: String, callback: CentersServiceCallback) {
-        val call: Call<GetCentersResponse> = apiClient.getSeniorCenters(GetCentersBody(zone))
-        call.enqueue(object : Callback<GetCentersResponse> {
-            override fun onFailure(call: Call<GetCentersResponse>, t: Throwable) {
-                callback.onCallFailed()
-            }
+    private val service: CentersApi = apiClient.createService(CentersApi::class.java)
 
-            override fun onResponse(
-                call: Call<GetCentersResponse>,
-                response: Response<GetCentersResponse>
-            ) {
-                if (response.isSuccessful && response.body() != null)
-                    callback.onCentersReceived(response.body() as GetCentersResponse)
-                else callback.onCallFailed()
-            }
-
-        })
+    override fun getSeniorCenters(zone: String): Observable<CenterCategoryDataModel> {
+        return service.getSeniorCenters(zone)
+            .map { mapper.map(zone, it) }
     }
 
-    override fun getChildrenShelterCenters(zone: String, callback: CentersServiceCallback) {
-        val call: Call<GetCentersResponse> = apiClient.getChildrenShelterCenters(GetCentersBody(zone))
-        call.enqueue(object : Callback<GetCentersResponse> {
-            override fun onFailure(call: Call<GetCentersResponse>, t: Throwable) {
-                callback.onCallFailed()
-            }
-
-            override fun onResponse(
-                call: Call<GetCentersResponse>,
-                response: Response<GetCentersResponse>
-            ) {
-                if (response.isSuccessful && response.body() != null)
-                    callback.onCentersReceived(response.body() as GetCentersResponse)
-                else callback.onCallFailed()
-            }
-
-        })
+    override fun getChildrenShelterCenters(zone: String): Observable<CenterCategoryDataModel> {
+        return service.getChildrenShelterCenters(zone)
+            .map { mapper.map(zone, it) }
     }
 
-    override fun getSocialServicesCenters(zone: String, callback: CentersServiceCallback) {
-        val call: Call<GetCentersResponse> = apiClient.getSocialServicesCenters(GetCentersBody(zone))
-        call.enqueue(object : Callback<GetCentersResponse> {
-            override fun onFailure(call: Call<GetCentersResponse>, t: Throwable) {
-                callback.onCallFailed()
-            }
-
-            override fun onResponse(
-                call: Call<GetCentersResponse>,
-                response: Response<GetCentersResponse>
-            ) {
-                if (response.isSuccessful && response.body() != null)
-                    callback.onCentersReceived(response.body() as GetCentersResponse)
-                else callback.onCallFailed()
-            }
-
-        })
+    override fun getSocialServicesCenters(zone: String): Observable<CenterCategoryDataModel> {
+        return service.getSocialServicesCenters(zone)
+            .map { mapper.map(zone, it) }
     }
 
-    override fun getDayCareCenters(zone: String, callback: CentersServiceCallback) {
-        val call: Call<GetCentersResponse> = apiClient.getDayCareCenters(GetCentersBody(zone))
-        call.enqueue(object : Callback<GetCentersResponse> {
-            override fun onFailure(call: Call<GetCentersResponse>, t: Throwable) {
-                callback.onCallFailed()
-            }
-
-            override fun onResponse(
-                call: Call<GetCentersResponse>,
-                response: Response<GetCentersResponse>
-            ) {
-                if (response.isSuccessful && response.body() != null)
-                    callback.onCentersReceived(response.body() as GetCentersResponse)
-                else callback.onCallFailed()
-            }
-
-        })
+    override fun getDayCareCenters(zone: String): Observable<CenterCategoryDataModel> {
+        return service.getDayCareCenters(zone)
+            .map { mapper.map(zone, it) }
     }
 }
