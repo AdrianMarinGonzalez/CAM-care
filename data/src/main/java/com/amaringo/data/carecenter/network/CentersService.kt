@@ -1,6 +1,6 @@
 package com.amaringo.data.carecenter.network
 
-import com.amaringo.domain.model.CenterCategoryDataModel
+import com.amaringo.data.carecenter.model.CenterCategoryDataModel
 import io.reactivex.Observable
 
 

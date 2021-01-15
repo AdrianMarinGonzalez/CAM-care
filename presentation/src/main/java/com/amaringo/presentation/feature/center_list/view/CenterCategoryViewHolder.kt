@@ -3,6 +3,7 @@ package com.amaringo.presentation.feature.center_list.view
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amaringo.presentation.R
+import com.amaringo.presentation.common.HorizontalSpaceItemDecoration
 import com.amaringo.presentation.databinding.CenterCategoryLayoutBinding
 import com.amaringo.presentation.feature.center_list.model.Center
 import com.amaringo.presentation.feature.center_list.model.CenterCategory

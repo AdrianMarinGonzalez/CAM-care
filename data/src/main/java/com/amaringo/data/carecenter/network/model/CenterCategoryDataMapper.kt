@@ -1,20 +1,21 @@
 package com.amaringo.data.carecenter.network.model
 
 import com.amaringo.data.carecenter.network.model.center_categories.GetCentersResponse
-import com.amaringo.domain.model.CenterCategoryDataModel
-import com.amaringo.domain.model.CenterCategoryModel
-import com.amaringo.domain.model.LocationModel
+import com.amaringo.data.carecenter.model.CenterCategoryDataModel
+import com.amaringo.data.carecenter.model.CenterCategoryModel
 
-class CenterDataMapper {
+class CenterCategoryDataMapper {
 
-    fun map(category: String, apiModel: GetCentersResponse): CenterCategoryDataModel {
+    fun map(category: String, zone: String, apiModel: GetCentersResponse): CenterCategoryDataModel {
         return CenterCategoryDataModel(
             category,
+            zone,
             apiModel.centers.map {
                 CenterCategoryModel(
                     it.url,
                     it.title,
-                    LocationModel(it.location.latitude, it.location.longitude)
+                    it.location.latitude,
+                    it.location.longitude
                 )
             })
     }

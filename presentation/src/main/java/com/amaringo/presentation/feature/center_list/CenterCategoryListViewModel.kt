@@ -1,5 +1,6 @@
 package com.amaringo.presentation.feature.center_list
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.amaringo.domain.centers.GetCentersUseCase
@@ -21,6 +22,9 @@ class CenterCategoryListViewModel(val getCentersUseCase: GetCentersUseCase, val 
                 val currentCenters = _centersData.value
                 currentCenters!!.add(centerMapper.map(it))
                 _centersData.value = currentCenters
+            },
+            onFailure = {
+                Log.i("","")
             }
         ))
     }

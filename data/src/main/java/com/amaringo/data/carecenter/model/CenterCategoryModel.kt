@@ -1,4 +1,9 @@
-package com.amaringo.domain.model
+package com.amaringo.data.carecenter.model
 
 
-data class CenterCategoryModel(val id: String, val title: String, val location: LocationModel)
+data class CenterCategoryModel(
+    val id: String,
+    val title: String,
+    val latitude: Double,
+    val longitude: Double
+)

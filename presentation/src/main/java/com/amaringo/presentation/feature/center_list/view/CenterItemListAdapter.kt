@@ -28,9 +28,4 @@ class CenterItemListAdapter(
     override fun onBindViewHolder(holder: CenterViewHolder, position: Int) {
         holder.bind(centers[position], onItemSelected)
     }
-
-    fun update(updates: MutableList<Center>) {
-        centers = updates
-        notifyDataSetChanged()
-    }
 }

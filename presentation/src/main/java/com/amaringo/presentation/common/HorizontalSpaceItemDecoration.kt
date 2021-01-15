@@ -1,4 +1,4 @@
-package com.amaringo.presentation.feature.center_list.view
+package com.amaringo.presentation.common
 
 import android.graphics.Rect
 import android.view.View
@@ -9,6 +9,7 @@ class HorizontalSpaceItemDecoration(
     private val space: Int,
     private val deleteHeaderSpacing: Boolean = false
 ) : RecyclerView.ItemDecoration() {
+
     override fun getItemOffsets(
         outRect: Rect,
         view: View,

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amaringo.presentation.R
 import com.amaringo.presentation.base.BaseFragment
+import com.amaringo.presentation.common.VerticalSpaceItemDecoration
 import com.amaringo.presentation.common.addLifecyclerObserver
 import com.amaringo.presentation.databinding.CenterListFragmentBinding
 import com.amaringo.presentation.feature.center_list.di.centerListModule
@@ -35,6 +36,12 @@ class CenterCategoryListFragment :
         dataBinding.contentList.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
+            addItemDecoration(
+                VerticalSpaceItemDecoration(
+                    resources.getDimension(R.dimen.category_list_divider).toInt(),
+                    true
+                )
+            )
             adapter =
                 CenterCategoryListAdapter(
                     mutableListOf(),
