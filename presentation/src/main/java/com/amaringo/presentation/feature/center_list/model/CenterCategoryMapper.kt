@@ -1,12 +1,12 @@
 package com.amaringo.presentation.feature.center_list.model
 
-import com.amaringo.domain.model.CenterCategoryDataDTO
+import com.amaringo.domain.model.CategoryDataDTO
 import com.amaringo.presentation.R
 import com.amaringo.presentation.common.StringLoader
 
 class CenterCategoryMapper(val stringResolver: StringLoader) {
 
-    fun map(model: CenterCategoryDataDTO): CenterCategory {
+    fun map(model: CategoryDataDTO): CenterCategory {
         return CenterCategory(
             model.category,
             getTitle(model.category),

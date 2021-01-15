@@ -4,4 +4,4 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Center(val id: String,  val title: String,  val location: Location): Parcelable
+data class Center(val url: String, val title: String, val location: Location): Parcelable

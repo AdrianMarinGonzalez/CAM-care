@@ -18,10 +18,6 @@
         android:label="Center Detail Fragment"
         tools:layout="@layout/center_detail_fragment"
         >
-        <argument
-            android:name="url"
-            app:argType="CenterCategory"
-            android:defaultValue="@null" />
     </fragment>
 
 </navigation>

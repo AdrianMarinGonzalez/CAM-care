@@ -6,11 +6,11 @@ import com.amaringo.domain.model.*
 
 class CenterDataMapper {
 
-    fun map(category: String, zone: String, model: CenterCategoryDataModel): CenterCategoryDataDTO {
-        return CenterCategoryDataDTO(
+    fun map(category: String, zone: String, model: CenterCategoryDataModel): CategoryDataDTO {
+        return CategoryDataDTO(
             category,
             model.centers.map {
-                CenterCategoryDTO(
+                CategoryCenterDTO(
                     it.id,
                     it.title,
                     LocationDTO(it.latitude, it.longitude)

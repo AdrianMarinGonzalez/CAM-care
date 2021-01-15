@@ -1,11 +1,7 @@
 package com.amaringo.presentation.feature.center_detail.model
 
-import com.amaringo.domain.model.CenterCategoryDataDTO
-import com.amaringo.presentation.common.StringLoader
+import com.amaringo.domain.model.CenterDetailDTO
 
-class CenterDetailMapper(val stringResolver: StringLoader) {
-
-    fun map(model: CenterCategoryDataDTO): CenterDetail {
-        return CenterDetail("", "")
-    }
+class CenterDetailMapper() {
+    fun map(model: CenterDetailDTO) = CenterDetail(model.title, model.schedule, model.address, model.description)
 }

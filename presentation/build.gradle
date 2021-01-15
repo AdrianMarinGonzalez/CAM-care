@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     compileSdkVersion 29
@@ -53,8 +52,6 @@ dependencies {
     implementation 'androidx.databinding:databinding-runtime:4.1.1'
     kapt 'com.android.databinding:compiler:3.1.4'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     api "org.koin:koin-android:2.2.2"
     api "org.koin:koin-androidx-scope:2.2.2"

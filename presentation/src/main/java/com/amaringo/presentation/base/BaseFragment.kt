@@ -23,19 +23,12 @@ abstract class BaseFragment<V: BaseViewModel, T : ViewDataBinding> : Fragment() 
     protected lateinit var dataBinding: T
     protected lateinit var viewModel: V
 
-    abstract fun getInjectionModules(): List<Module>
-
     @LayoutRes
     abstract fun getLayoutId(): Int
 
     abstract fun initViews()
 
     abstract fun setBinding()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        loadKoinModules(presentationModule + getInjectionModules())
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,14 +51,13 @@ abstract class BaseFragment<V: BaseViewModel, T : ViewDataBinding> : Fragment() 
 
     private fun setupObservers() {
         addLifecyclerObserver(viewModel.screenState) {
-            when(it) {
+            when (it) {
                 is ScreenFlowState.NavigateToCenterDetail -> {
                     val arguments = bundleOf(CENTER_DATA_ARGUMENT_KEY to it.data)
-                    findNavController().navigate(R.id.centerDetailFragment)
-}
+                    findNavController().navigate(R.id.centerDetailFragment, arguments)
+                }
             }
         }
     }
-
 
 }
