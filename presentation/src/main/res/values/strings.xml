@@ -3,4 +3,10 @@
 
   <string name="onboarding_message">Bienvenido a CAM Care, la app en la que encontrarás los centros que cuidan de los que más te importan</string>
   <string name="onboarding_button">Comenzar</string>
+    <string name="category_detail_button">Ver mas</string>
+    <string name="social_services_category">Centros de Servicios Sociales Municipales</string>
+  <string name="day_care_category">Centros de Día</string>
+  <string name="children_shelter_category">Centros de Atención para Menores y Familia</string>
+  <string name="senior_category">Centros Municipales de Mayores</string>
+  <string name="other_category">Otros</string>
 </resources>

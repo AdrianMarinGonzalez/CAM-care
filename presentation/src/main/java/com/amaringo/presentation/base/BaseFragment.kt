@@ -8,6 +8,10 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.amaringo.presentation.R
+import com.amaringo.presentation.common.addLifecyclerObserver
+import com.amaringo.presentation.model.ScreenFlowState
 import org.koin.core.context.loadKoinModules
 import org.koin.core.module.Module
 
@@ -49,8 +53,13 @@ abstract class BaseFragment<V: BaseViewModel, T : ViewDataBinding> : Fragment() 
         super.onDestroy()
         viewModel.onDestroy()
     }
-    private fun setupObservers() {
 
+    private fun setupObservers() {
+        addLifecyclerObserver(viewModel.screenState) {
+            when(it) {
+                // is ScreenFlowState.NavigateToCenterCategoryDetail -> findNavController().navigate(R.id.center_category_detail)
+            }
+        }
     }
 
 

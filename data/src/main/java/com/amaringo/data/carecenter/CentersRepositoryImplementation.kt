@@ -21,7 +21,7 @@ class CentersRepositoryImplementation(val api: CentersService, val mapper: Cente
     }
 
     private fun getAPIChildrenShelterCenters(zone: String): Observable<CenterCategoryDataDTO> {
-        return api.getChildrenShelterCenters(zone).map { mapper.map("CHILDRE_SHELTER", it) }
+        return api.getChildrenShelterCenters(zone).map { mapper.map("CHILDREN_SHELTER", it) }
     }
 
     private fun getAPISocialServicesCenters(zone: String): Observable<CenterCategoryDataDTO> {

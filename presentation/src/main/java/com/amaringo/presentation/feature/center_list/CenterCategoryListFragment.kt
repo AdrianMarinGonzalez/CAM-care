@@ -8,11 +8,12 @@ import com.amaringo.presentation.base.BaseFragment
 import com.amaringo.presentation.common.addLifecyclerObserver
 import com.amaringo.presentation.databinding.CenterListFragmentBinding
 import com.amaringo.presentation.feature.center_list.di.centerListModule
+import com.amaringo.presentation.feature.center_list.view.CenterCategoryListAdapter
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import org.koin.core.context.loadKoinModules
 
 
-class CenterCategoryListFragment: BaseFragment<CenterCategoryListViewModel, CenterListFragmentBinding>() {
+class CenterCategoryListFragment :
+    BaseFragment<CenterCategoryListViewModel, CenterListFragmentBinding>() {
 
     override fun getLayoutId() = R.layout.center_list_fragment
 
@@ -34,7 +35,12 @@ class CenterCategoryListFragment: BaseFragment<CenterCategoryListViewModel, Cent
         dataBinding.contentList.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
-            adapter = CenterCategoryListAdapter(mutableListOf())
+            adapter =
+                CenterCategoryListAdapter(
+                    mutableListOf(),
+                    onItemSelected = { center -> viewModel.onCenterSelected(center) },
+                    onShowMoreSelected = { center -> viewModel.onCenterCategorySelected(center) }
+                )
         }
     }
 }
