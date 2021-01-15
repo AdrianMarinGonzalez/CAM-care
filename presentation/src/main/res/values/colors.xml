@@ -5,6 +5,9 @@
   <color name="colorPrimaryDark">#ab000d</color>
   <color name="colorAccent">#3949ab</color>
 
+  <color name="colorPrimaryLightest">#12E53935</color>
+  <color name="background">#F4F3F2</color>
 
   <color name="white">#FFFFFF</color>
+  <color name="darkGrey">#333333</color>
 </resources>

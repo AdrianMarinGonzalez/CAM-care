@@ -1,3 +1,5 @@
 rootProject.name='CAM Care'
 include ':core'
 include ':presentation'
+include ':domain'
+include ':data'

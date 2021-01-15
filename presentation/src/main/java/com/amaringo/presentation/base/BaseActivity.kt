@@ -13,7 +13,6 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectFeatures()
         bindView()
     }
 
@@ -26,8 +25,6 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
             initViews()
         }
     }
-
-    abstract fun injectFeatures()
 
     @LayoutRes abstract fun getLayoutId(): Int
 
