@@ -17,8 +17,6 @@ val centerListModule = module {
         get(qualifier = named("IO_SCHEDULER"))
     )}
 
-    single { StringLoader(androidContext()) }
-
     single { CenterCategoryMapper(get()) }
 
     viewModel {

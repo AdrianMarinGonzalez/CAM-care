@@ -8,6 +8,7 @@ import com.amaringo.presentation.base.BaseFragment
 import com.amaringo.presentation.common.VerticalSpaceItemDecoration
 import com.amaringo.presentation.common.addLifecyclerObserver
 import com.amaringo.presentation.databinding.CenterListFragmentBinding
+import com.amaringo.presentation.feature.center_detail.di.centerDetailModule
 import com.amaringo.presentation.feature.center_list.di.centerListModule
 import com.amaringo.presentation.feature.center_list.view.CenterCategoryListAdapter
 import org.koin.androidx.viewmodel.ext.android.getViewModel

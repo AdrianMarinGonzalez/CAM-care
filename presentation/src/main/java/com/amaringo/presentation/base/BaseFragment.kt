@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.amaringo.presentation.R
+import com.amaringo.presentation.common.CENTER_DATA_ARGUMENT_KEY
 import com.amaringo.presentation.common.addLifecyclerObserver
 import com.amaringo.presentation.model.ScreenFlowState
 import org.koin.core.context.loadKoinModules
@@ -32,7 +34,7 @@ abstract class BaseFragment<V: BaseViewModel, T : ViewDataBinding> : Fragment() 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loadKoinModules(mainModule + getInjectionModules())
+        loadKoinModules(presentationModule + getInjectionModules())
     }
 
     override fun onCreateView(
@@ -57,7 +59,10 @@ abstract class BaseFragment<V: BaseViewModel, T : ViewDataBinding> : Fragment() 
     private fun setupObservers() {
         addLifecyclerObserver(viewModel.screenState) {
             when(it) {
-                // is ScreenFlowState.NavigateToCenterCategoryDetail -> findNavController().navigate(R.id.center_category_detail)
+                is ScreenFlowState.NavigateToCenterDetail -> {
+                    val arguments = bundleOf(CENTER_DATA_ARGUMENT_KEY to it.data)
+                    findNavController().navigate(R.id.centerDetailFragment)
+}
             }
         }
     }

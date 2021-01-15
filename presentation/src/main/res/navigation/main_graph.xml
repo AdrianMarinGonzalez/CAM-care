@@ -12,4 +12,16 @@
         tools:layout="@layout/center_list_fragment"
         />
 
+    <fragment
+        android:id="@+id/centerDetailFragment"
+        android:name="com.amaringo.presentation.feature.center_detail.CenterDetailFragment"
+        android:label="Center Detail Fragment"
+        tools:layout="@layout/center_detail_fragment"
+        >
+        <argument
+            android:name="url"
+            app:argType="CenterCategory"
+            android:defaultValue="@null" />
+    </fragment>
+
 </navigation>

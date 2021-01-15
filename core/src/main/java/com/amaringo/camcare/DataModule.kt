@@ -11,7 +11,7 @@ import com.amaringo.domain.centers.CentersRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
-val data = module {
+val dataModule = module {
 
     single { CenterDataMapper() }
     single { CenterCategoryDataMapper() }
