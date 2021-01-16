@@ -2,11 +2,11 @@ package com.amaringo.data.carecenter.db
 
 import android.content.Context
 import androidx.room.Room
-import com.amaringo.data.carecenter.db.model.CenterCategoryDataMapper
+import com.amaringo.data.carecenter.db.model.CategoryDataMapper
 import com.amaringo.data.carecenter.db.model.CenterCategoryEntity
-import com.amaringo.data.carecenter.model.CenterCategoryDataModel
+import com.amaringo.data.carecenter.model.CategoryDataModel
 
-class CAMCareDatabaseClient(applicationContext: Context, val mapper: CenterCategoryDataMapper) {
+class CAMCareDatabaseClient(applicationContext: Context, val mapper: CategoryDataMapper) {
     private val db = Room.databaseBuilder(
         applicationContext,
         CAMCareDatabase::class.java, "camcaredb"
@@ -15,7 +15,7 @@ class CAMCareDatabaseClient(applicationContext: Context, val mapper: CenterCateg
     fun getCenterCategoryDataModelByZoneAndCategory(
         zone: String,
         category: String
-    ): CenterCategoryDataModel {
+    ): CategoryDataModel {
         val dao = db.centerCategoryDao()
         val entity = dao.findCategoryDataByZoneAndCategory(zone, category).also {
             it.centers = dao.loadCentersFromCategory(it.uid)
@@ -24,7 +24,7 @@ class CAMCareDatabaseClient(applicationContext: Context, val mapper: CenterCateg
         return dto
     }
 
-    fun saveCenterCategoryDataModel(model: CenterCategoryDataModel) {
+    fun saveCenterCategoryDataModel(model: CategoryDataModel) {
         val dao = db.centerCategoryDao()
         val entity = mapper.map(model)
         val insertedId = dao.insertCategoryData(entity)

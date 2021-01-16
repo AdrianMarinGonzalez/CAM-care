@@ -27,5 +27,6 @@ class CenterDetailViewModel(val centersUseCase: CentersUseCase, val centerMapper
     }
 
     override fun onDestroy() {
+        centersUseCase.destroy()
     }
 }

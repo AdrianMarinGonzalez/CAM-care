@@ -1,4 +1,4 @@
-package com.amaringo.data.carecenter.network.model.center_categories
+package com.amaringo.data.carecenter.network.model
 
 import com.google.gson.annotations.SerializedName
 

@@ -6,18 +6,21 @@ import com.amaringo.presentation.R
 import com.amaringo.presentation.base.BaseFragment
 import com.amaringo.presentation.common.CENTER_DATA_ARGUMENT_KEY
 import com.amaringo.presentation.common.addLifecyclerObserver
-import com.amaringo.presentation.databinding.CenterListFragmentBinding
+import com.amaringo.presentation.databinding.CenterDetailFragmentBinding
 import com.amaringo.presentation.feature.center_list.model.Center
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 
-class CenterDetailFragment : BaseFragment<CenterDetailViewModel, CenterListFragmentBinding>() {
+class CenterDetailFragment : BaseFragment<CenterDetailViewModel, CenterDetailFragmentBinding>() {
 
     override fun getLayoutId() = R.layout.center_detail_fragment
 
     override fun initViews() {
         addLifecyclerObserver(viewModel.centerData) {
-
+            dataBinding.title.text = it.title
+            dataBinding.description.text = it.description
+            dataBinding.schedule.text = it.schedule
+            dataBinding.address.text = it.address
         }
     }
 

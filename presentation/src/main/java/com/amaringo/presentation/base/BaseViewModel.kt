@@ -10,7 +10,7 @@ import com.amaringo.presentation.model.ScreenFlowState
 
 abstract class BaseViewModel : ViewModel() {
 
-    protected var _screenState = MutableLiveData<ScreenFlowState>()
+    protected val _screenState = MutableLiveData<ScreenFlowState>()
     val screenState: LiveData<ScreenFlowState> = _screenState
 
     open fun onDestroy() {}

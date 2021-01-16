@@ -1,12 +1,12 @@
 package com.amaringo.data.carecenter.db.model
 
-import com.amaringo.data.carecenter.model.CenterCategoryDataModel
+import com.amaringo.data.carecenter.model.CategoryDataModel
 import com.amaringo.data.carecenter.model.CenterCategoryModel
 
-class CenterCategoryDataMapper {
+class CategoryDataMapper {
 
-    fun map(category: String, zone: String, apiModel: CenterCategoryDataEntity): CenterCategoryDataModel {
-        return CenterCategoryDataModel(
+    fun map(category: String, zone: String, apiModel: CenterCategoryDataEntity): CategoryDataModel {
+        return CategoryDataModel(
             category,
             zone,
             apiModel.centers.map {
@@ -19,7 +19,7 @@ class CenterCategoryDataMapper {
             })
     }
 
-    fun map(model: CenterCategoryDataModel): CenterCategoryDataEntity {
+    fun map(model: CategoryDataModel): CenterCategoryDataEntity {
         return CenterCategoryDataEntity(
             model.category,
             model.zone,

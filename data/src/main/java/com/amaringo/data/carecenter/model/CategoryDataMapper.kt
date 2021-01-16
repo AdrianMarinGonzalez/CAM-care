@@ -1,12 +1,11 @@
-package com.amaringo.data.carecenter
+package com.amaringo.data.carecenter.model
 
-import com.amaringo.data.carecenter.model.CenterCategoryDataModel
 import com.amaringo.domain.model.*
 
 
-class CenterDataMapper {
+class CategoryDataMapper {
 
-    fun map(category: String, zone: String, model: CenterCategoryDataModel): CategoryDataDTO {
+    fun map(category: String, zone: String, model: CategoryDataModel): CategoryDataDTO {
         return CategoryDataDTO(
             category,
             model.centers.map {
