@@ -23,13 +23,12 @@ class CAMCareDatabaseClient(
     fun findCenterCategoryDataModelByZoneAndCategory(
         zone: String,
         category: String
-    ): CategoryDataModel {
+    ): CategoryDataModel? {
         val dao = db.centerCategoryDao()
-        val entity = dao.findCategoryDataByZoneAndCategory(zone, category).also {
+        val entity = dao.findCategoryDataByZoneAndCategory(zone, category)?.also {
             it.centers = dao.loadCentersFromCategory(it.uid)
         }
-        val dto = categoryMapper.map(category, zone, entity)
-        return dto
+        entity?.let { return categoryMapper.map(category, zone, entity) } ?: return null
     }
 
     fun saveCenterCategoryDataModel(model: CategoryDataModel) {
@@ -54,10 +53,10 @@ class CAMCareDatabaseClient(
         dao.insert(entity)
     }
 
-    fun findCenterByUrl(url: String): CenterDetailModel {
+    fun findCenterByUrl(url: String): CenterDetailModel? {
         val dao = db.centerDao()
         val entity = dao.findByUrl(url)
-        return centerMapper.map(entity)
+        entity?.let { return centerMapper.map(entity) } ?: return null
     }
 
 

@@ -9,7 +9,7 @@ import com.amaringo.data.carecenter.db.model.CenterEntity
 interface CenterDao {
 
     @Query("SELECT * FROM CenterEntity WHERE url LIKE :url LIMIT 1")
-    fun findByUrl(url: String): CenterEntity
+    fun findByUrl(url: String): CenterEntity?
 
     @Query("SELECT * FROM CenterEntity")
     fun getAll(): List<CenterEntity>

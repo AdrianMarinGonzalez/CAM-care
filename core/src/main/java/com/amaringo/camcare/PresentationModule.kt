@@ -22,12 +22,12 @@ val presentationModule = module {
     single { CenterCategoryMapper(get()) }
 
     viewModel {
-        CenterCategoryListViewModel(get(), get())
+        CenterCategoryListViewModel(get(), get(), get())
     }
 
     single { CenterDetailMapper() }
 
     viewModel {
-        CenterDetailViewModel(get(), get())
+        CenterDetailViewModel(get(), get(), get())
     }
 }

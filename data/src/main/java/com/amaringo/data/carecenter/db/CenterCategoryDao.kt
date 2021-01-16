@@ -12,7 +12,7 @@ interface CenterCategoryDao {
     fun getAll(): List<CenterCategoryDataEntity>
 
     @Query("SELECT * FROM CenterCategoryDataEntity WHERE category LIKE :category AND zone LIKE :zone LIMIT 1")
-    fun findCategoryDataByZoneAndCategory(zone: String, category: String): CenterCategoryDataEntity
+    fun findCategoryDataByZoneAndCategory(zone: String, category: String): CenterCategoryDataEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(models: List<CenterCategoryDataEntity>)

@@ -43,8 +43,12 @@ class CentersRepositoryImplementation(
     private fun getDBCenter(url: String) = Observable.create<CenterDetailDTO> { emitter ->
         run {
             val entity = dbClient.findCenterByUrl(url)
-            val model = centerDetailMapper.map(entity)
-            emitter.onNext(model)
+            entity?.let {
+                val model = centerDetailMapper.map(entity)
+                emitter.onNext(model)
+            } ?: run {
+                emitter.onError(Throwable("El recurso al que ha intentado acceder no está disponible en estos momentos"))
+            }
         }
     }
 
@@ -57,8 +61,12 @@ class CentersRepositoryImplementation(
     private fun getDBSeniorCenters(zone: String) = Observable.create<CategoryDataDTO> { emitter ->
         run {
             val entity = dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "SENIOR")
-            val model = categoryDataMapper.map("SENIOR", zone, entity)
-            emitter.onNext(model)
+            entity?.let {
+                val model = categoryDataMapper.map("SENIOR", zone, entity)
+                emitter.onNext(model)
+            } ?: run {
+                emitter.onError(Throwable("El recurso al que ha intentado acceder no está disponible en estos momentos"))
+            }
         }
     }
 
@@ -73,8 +81,13 @@ class CentersRepositoryImplementation(
             run {
                 val entity =
                     dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "CHILDREN_SHELTER")
-                val model = categoryDataMapper.map("CHILDREN_SHELTER", zone, entity)
-                emitter.onNext(model)
+                entity?.let {
+                    val model = categoryDataMapper.map("CHILDREN_SHELTER", zone, entity)
+                    emitter.onNext(model)
+                } ?: run {
+                    emitter.onError(Throwable("El recurso al que ha intentado acceder no está disponible en estos momentos"))
+                }
+
             }
         }
 
@@ -89,8 +102,12 @@ class CentersRepositoryImplementation(
             run {
                 val entity =
                     dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "SOCIAL_SERVICES")
-                val model = categoryDataMapper.map("SOCIAL_SERVICES", zone, entity)
-                emitter.onNext(model)
+                entity?.let {
+                    val model = categoryDataMapper.map("SOCIAL_SERVICES", zone, entity)
+                    emitter.onNext(model)
+                } ?: run {
+                    emitter.onError(Throwable("El recurso al que ha intentado acceder no está disponible en estos momentos"))
+                }
             }
         }
 
@@ -103,8 +120,12 @@ class CentersRepositoryImplementation(
     private fun getDBDayCareCenters(zone: String) = Observable.create<CategoryDataDTO> { emitter ->
         run {
             val entity = dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "DAY_CARE")
-            val model = categoryDataMapper.map("DAY_CARE", zone, entity)
-            emitter.onNext(model)
+            entity?.let {
+                val model = categoryDataMapper.map("DAY_CARE", zone, entity)
+                emitter.onNext(model)
+            } ?: run {
+                emitter.onError(Throwable("El recurso al que ha intentado acceder no está disponible en estos momentos"))
+            }
         }
     }
 }
