@@ -12,6 +12,7 @@ import org.koin.dsl.module
 val dataModule = module {
 
     single { com.amaringo.data.carecenter.db.model.CategoryDataMapper() }
+    single { com.amaringo.data.carecenter.db.model.CenterMapper() }
 
     single { com.amaringo.data.carecenter.model.CategoryDataMapper() }
     single { com.amaringo.data.carecenter.model.CenterDetailMapper() }
@@ -19,7 +20,7 @@ val dataModule = module {
     single { com.amaringo.data.carecenter.network.model.CategoryDataMapper() }
     single { com.amaringo.data.carecenter.network.model.CenterDetailMapper() }
 
-    single { CAMCareDatabaseClient(androidContext(), get()) }
+    single { CAMCareDatabaseClient(androidContext(), get(), get()) }
     single { APIClient("https://datos.madrid.es/") }
     factory<CentersService> { CentersServiceImpl(get(), get(), get()) }
 

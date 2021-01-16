@@ -31,11 +31,21 @@ class CentersRepositoryImplementation(
     }
 
     override fun getCenter(url: String): Observable<CenterDetailDTO> {
-        return getAPICenter(url)
+        return getAPICenter(url).onErrorResumeNext(getDBCenter(url))
     }
 
     private fun getAPICenter(url: String): Observable<CenterDetailDTO> {
-        return api.getCenter(url).map { centerDetailMapper.map(it) }
+        return api.getCenter(url).doOnNext {
+            dbClient.saveCenterModel(it)
+        }.map { centerDetailMapper.map(it) }
+    }
+
+    private fun getDBCenter(url: String) = Observable.create<CenterDetailDTO> { emitter ->
+        run {
+            val entity = dbClient.findCenterByUrl(url)
+            val model = centerDetailMapper.map(entity)
+            emitter.onNext(model)
+        }
     }
 
     private fun getAPISeniorCenters(zone: String): Observable<CategoryDataDTO> {
@@ -44,13 +54,12 @@ class CentersRepositoryImplementation(
         }.map { categoryDataMapper.map("SENIOR", zone, it) }
     }
 
-    private fun getDBSeniorCenters(zone: String) = Observable.create<CategoryDataDTO> {
-            emitter ->
-                run {
-                    val entity = dbClient.getCenterCategoryDataModelByZoneAndCategory(zone, "SENIOR")
-                    val model = categoryDataMapper.map("SENIOR", zone, entity)
-                    emitter.onNext(model)
-                }
+    private fun getDBSeniorCenters(zone: String) = Observable.create<CategoryDataDTO> { emitter ->
+        run {
+            val entity = dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "SENIOR")
+            val model = categoryDataMapper.map("SENIOR", zone, entity)
+            emitter.onNext(model)
+        }
     }
 
     private fun getAPIChildrenShelterCenters(zone: String): Observable<CategoryDataDTO> {
@@ -59,14 +68,15 @@ class CentersRepositoryImplementation(
         }.map { categoryDataMapper.map("CHILDREN_SHELTER", zone, it) }
     }
 
-    private fun getDBChildrenShelterCenters(zone: String) = Observable.create<CategoryDataDTO> {
-            emitter ->
-        run {
-            val entity = dbClient.getCenterCategoryDataModelByZoneAndCategory(zone, "CHILDREN_SHELTER")
-            val model = categoryDataMapper.map("CHILDREN_SHELTER", zone, entity)
-            emitter.onNext(model)
+    private fun getDBChildrenShelterCenters(zone: String) =
+        Observable.create<CategoryDataDTO> { emitter ->
+            run {
+                val entity =
+                    dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "CHILDREN_SHELTER")
+                val model = categoryDataMapper.map("CHILDREN_SHELTER", zone, entity)
+                emitter.onNext(model)
+            }
         }
-    }
 
     private fun getAPISocialServicesCenters(zone: String): Observable<CategoryDataDTO> {
         return api.getSocialServicesCenters(zone).doOnNext {
@@ -74,14 +84,15 @@ class CentersRepositoryImplementation(
         }.map { categoryDataMapper.map("SOCIAL_SERVICES", zone, it) }
     }
 
-    private fun getDBSocialServicesCenters(zone: String) = Observable.create<CategoryDataDTO> {
-            emitter ->
-        run {
-            val entity = dbClient.getCenterCategoryDataModelByZoneAndCategory(zone, "SOCIAL_SERVICES")
-            val model = categoryDataMapper.map("SOCIAL_SERVICES", zone, entity)
-            emitter.onNext(model)
+    private fun getDBSocialServicesCenters(zone: String) =
+        Observable.create<CategoryDataDTO> { emitter ->
+            run {
+                val entity =
+                    dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "SOCIAL_SERVICES")
+                val model = categoryDataMapper.map("SOCIAL_SERVICES", zone, entity)
+                emitter.onNext(model)
+            }
         }
-    }
 
     private fun getAPIDayCareCenters(zone: String): Observable<CategoryDataDTO> {
         return api.getDayCareCenters(zone).doOnNext {
@@ -89,10 +100,9 @@ class CentersRepositoryImplementation(
         }.map { categoryDataMapper.map("DAY_CARE", zone, it) }
     }
 
-    private fun getDBDayCareCenters(zone: String) = Observable.create<CategoryDataDTO> {
-            emitter ->
+    private fun getDBDayCareCenters(zone: String) = Observable.create<CategoryDataDTO> { emitter ->
         run {
-            val entity = dbClient.getCenterCategoryDataModelByZoneAndCategory(zone, "DAY_CARE")
+            val entity = dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "DAY_CARE")
             val model = categoryDataMapper.map("DAY_CARE", zone, entity)
             emitter.onNext(model)
         }
