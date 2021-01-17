@@ -11,18 +11,13 @@
         android:theme="@style/AppTheme"
         tools:node="merge">
         <activity
-            android:name=".feature.onboarding.OnboardingActivity"
+            android:name=".base.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActivityTheme.Splash">
+            android:theme="@style/ActivityTheme.Splash" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".base.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
     </application>
 </manifest>

@@ -3,21 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation_graph"
-    app:startDestination="@+id/centerListFragment">
-
+    app:startDestination="@+id/onboardingFragment">
     <fragment
-        android:id="@id/centerListFragment"
+        android:id="@id/onboardingFragment"
+        android:name="com.amaringo.presentation.feature.onboarding.OnboardingFragment"
+        android:label="Onboarding Fragment"
+        tools:layout="@layout/onboarding_fragment_layout" />
+    <fragment
+        android:id="@+id/centerListFragment"
         android:name="com.amaringo.presentation.feature.center_list.CenterCategoryListFragment"
         android:label="Center List Fragment"
-        tools:layout="@layout/center_list_fragment"
-        />
+        tools:layout="@layout/center_list_fragment" />
 
     <fragment
         android:id="@+id/centerDetailFragment"
         android:name="com.amaringo.presentation.feature.center_detail.CenterDetailFragment"
         android:label="Center Detail Fragment"
-        tools:layout="@layout/center_detail_fragment"
-        >
-    </fragment>
+        tools:layout="@layout/center_detail_fragment"></fragment>
 
 </navigation>

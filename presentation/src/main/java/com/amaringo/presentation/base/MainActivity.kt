@@ -12,9 +12,14 @@ class MainActivity: BaseActivity<MainActivityBinding>() {
 
     override fun setBinding() {}
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun initViews() {
-        getNavHost()?.navController?.apply {
-            setGraph(navInflater.inflate(R.navigation.main_graph), Bundle())
+        getNavHost()?.navController?.let {
+            it.setGraph(it.navInflater.inflate(R.navigation.main_graph), Bundle())
         }
     }
 

@@ -18,7 +18,7 @@ class CenterCategoryViewHolder(private val itemBinding: CenterCategoryLayoutBind
     ) {
         itemBinding.category.text = centerCategory.title
         itemBinding.showMoreButton.setOnClickListener { onShowMoreSelected.invoke(centerCategory) }
-        itemBinding.categoryItemsList.apply {
+        with(itemBinding.categoryItemsList) {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             addItemDecoration(
