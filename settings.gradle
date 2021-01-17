@@ -1,2 +1,5 @@
 rootProject.name='CAM Care'
-include ':app'
+include ':core'
+include ':presentation'
+include ':domain'
+include ':data'
