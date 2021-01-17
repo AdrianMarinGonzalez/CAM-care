@@ -1,7 +1,6 @@
 package com.amaringo.presentation.feature.center_detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.amaringo.presentation.R
 import com.amaringo.presentation.base.BaseFragment
@@ -30,7 +29,6 @@ class CenterDetailFragment : BaseFragment<CenterDetailViewModel, CenterDetailFra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val center = arguments?.getParcelable<Center>(CENTER_DATA_ARGUMENT_KEY)!!
-        Log.i("FRAGMENT", "CenterDetailFragment")
         viewModel.getCenter(center)
     }
 

@@ -8,6 +8,5 @@ import kotlinx.android.parcel.Parcelize
 data class CenterCategory(
     val id: String,
     val title: String,
-    val icon: Int,
     val centers: List<Center>
 ) : Parcelable

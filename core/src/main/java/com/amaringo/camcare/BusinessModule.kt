@@ -1,16 +1,21 @@
 package com.amaringo.camcare
 
+import com.amaringo.domain.base.SchedulerProvider
 import com.amaringo.domain.centers.CentersUseCase
-import com.amaringo.presentation.feature.center_list.model.CenterCategoryMapper
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 
 val businessModule = module {
+    single<SchedulerProvider> {
+        SchedulerProviderImpl()
+    }
+
     factory { CentersUseCase(
         get(),
-        get(qualifier = named("MAIN_SCHEDULER")),
-        get(qualifier = named("IO_SCHEDULER"))
+        get()
     )
     }
 }

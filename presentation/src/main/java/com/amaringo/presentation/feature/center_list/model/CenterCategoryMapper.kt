@@ -10,18 +10,22 @@ class CenterCategoryMapper(val stringResolver: StringLoader) {
         return CenterCategory(
             model.category,
             getTitle(model.category),
-            getIcon(model.category),
             model.centers.map {
                 Center(
                     it.id,
                     it.title,
+                    getIcon(model.category),
                     Location(it.location.latitude, it.location.longitude)
                 )
             })
     }
 
-    private fun getIcon(category: String): Int {
-        return R.drawable.app_icon
+    private fun getIcon(category: String) = when (category) {
+        "SENIOR" -> R.drawable.ic_senior_category
+        "CHILDREN_SHELTER" ->  R.drawable.ic_children_shelter_category
+        "SOCIAL_SERVICES" ->  R.drawable.ic_social_services_category
+        "DAY_CARE" ->  R.drawable.ic_day_care_category
+        else -> R.drawable.app_icon
     }
 
     private fun getTitle(category: String) = when (category) {
