@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.amaringo.presentation.R
+import com.amaringo.presentation.common.ErrorDialog
 import com.amaringo.presentation.common.addLifecyclerObserver
 import com.amaringo.presentation.model.Error
 
@@ -54,7 +55,7 @@ abstract class BaseFragment<V: BaseViewModel, T : ViewDataBinding> : Fragment() 
         super.onDestroy()
         viewModel.onDestroy()
     }
-
+    
     protected fun navigateTo(@IdRes destination: Int, @IdRes popUpTo: Int, args: Bundle) {
         val options = NavOptions.Builder().apply {
             setEnterAnim(R.anim.slide_in_right)

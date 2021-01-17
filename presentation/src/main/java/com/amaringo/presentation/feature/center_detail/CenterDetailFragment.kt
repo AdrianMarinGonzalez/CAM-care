@@ -19,10 +19,13 @@ class CenterDetailFragment : BaseFragment<CenterDetailViewModel, CenterDetailFra
 
     override fun initViews() {
         addLifecyclerObserver(viewModel.centerData) {
+            dataBinding.emptyView.visibility = View.GONE
             dataBinding.title.text = it.title
             dataBinding.description.text = it.description
             dataBinding.schedule.text = it.schedule
+            dataBinding.scheduleIcon.visibility = if (it.schedule.isNotBlank()) View.VISIBLE else View.INVISIBLE
             dataBinding.address.text = it.address
+            dataBinding.addressIcon.visibility = if (it.address.isNotBlank()) View.VISIBLE else View.INVISIBLE
         }
     }
 

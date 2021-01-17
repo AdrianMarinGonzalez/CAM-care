@@ -2,12 +2,14 @@ package com.amaringo.data.carecenter
 
 import com.amaringo.data.carecenter.db.CAMCareDatabaseClient
 import com.amaringo.data.carecenter.model.CategoryDataMapper
+import com.amaringo.data.carecenter.model.CategoryDataModel
 import com.amaringo.data.carecenter.model.CenterDetailMapper
 import com.amaringo.data.carecenter.network.CentersService
 import com.amaringo.domain.centers.CentersRepository
 import com.amaringo.domain.model.CategoryDataDTO
 import com.amaringo.domain.model.CenterDetailDTO
 import io.reactivex.Observable
+import io.reactivex.Single
 
 
 class CentersRepositoryImplementation(
@@ -18,111 +20,127 @@ class CentersRepositoryImplementation(
 ) : CentersRepository {
 
     override fun getCenters(zone: String): Observable<CategoryDataDTO> {
-        val seniorCenters = getAPISeniorCenters(zone).onErrorResumeNext(getDBSeniorCenters(zone))
-        val childrenShelterCenters =
-            getAPIChildrenShelterCenters(zone).onErrorResumeNext(getDBChildrenShelterCenters(zone))
-        val socialServicesCenters =
-            getAPISocialServicesCenters(zone).onErrorResumeNext(getDBSocialServicesCenters(zone))
-        val dayCareCenters = getAPIDayCareCenters(zone).onErrorResumeNext(getDBDayCareCenters(zone))
 
         return Observable.merge(
-            seniorCenters, childrenShelterCenters, socialServicesCenters, dayCareCenters
+            getSeniorCenters(zone),
+            getChildrenShelters(zone),
+            getSocialServicesCenters(zone),
+            getDayCareCenters(zone)
         )
     }
 
-    override fun getCenter(url: String): Observable<CenterDetailDTO> {
-        return getAPICenter(url).onErrorResumeNext(getDBCenter(url))
+    override fun getCenter(url: String): Single<CenterDetailDTO> {
+        return getAPICenter(url).onErrorResumeNext { getDBCenter(url) }
     }
 
-    private fun getAPICenter(url: String): Observable<CenterDetailDTO> {
-        return api.getCenter(url).doOnNext {
-            dbClient.saveCenterModel(it)
-        }.map { centerDetailMapper.map(it) }
+    private fun getAPICenter(url: String): Single<CenterDetailDTO> {
+        return api.getCenter(url).doOnSuccess { dbClient.saveCenterModel(it) }
+            .map { centerDetailMapper.map(it) }
+
     }
 
-    private fun getDBCenter(url: String) = Observable.create<CenterDetailDTO> { emitter ->
+    private fun getDBCenter(url: String) = Single.create<CenterDetailDTO> { emitter ->
         run {
             val entity = dbClient.findCenterByUrl(url)
             entity?.let {
                 val model = centerDetailMapper.map(entity)
-                emitter.onNext(model)
+                emitter.onSuccess(model)
             } ?: run {
                 emitter.onError(Throwable("El recurso al que ha intentado acceder no está disponible en estos momentos"))
             }
         }
     }
 
-    private fun getAPISeniorCenters(zone: String): Observable<CategoryDataDTO> {
-        return api.getSeniorCenters(zone).doOnNext {
-            dbClient.saveCenterCategoryDataModel(it)
-        }.map { categoryDataMapper.map("SENIOR", zone, it) }
+    private fun getSeniorCenters(zone: String): Observable<CategoryDataDTO> {
+        return api.getSeniorCenters(zone)
+            .doOnSuccess {
+                if (it.centers.isNotEmpty()) dbClient.saveCenterCategoryDataModel(it)
+            }
+            .onErrorResumeNext(getDBSeniorCenters(zone))
+            .toObservable()
+            .flatMap {
+                if (it.centers.isEmpty()) Observable.empty<CategoryDataDTO?>()
+                else Observable.just(categoryDataMapper.map("SENIOR", zone, it))
+            }
     }
 
-    private fun getDBSeniorCenters(zone: String) = Observable.create<CategoryDataDTO> { emitter ->
+    private fun getDBSeniorCenters(zone: String) = Single.create<CategoryDataModel> { emitter ->
         run {
-            val entity = dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "SENIOR")
-            entity?.let {
-                val model = categoryDataMapper.map("SENIOR", zone, entity)
-                emitter.onNext(model)
+            dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "SENIOR")?.let {
+                emitter.onSuccess(it)
             } ?: run {
                 emitter.onError(Throwable("El recurso al que ha intentado acceder no está disponible en estos momentos"))
             }
         }
     }
 
-    private fun getAPIChildrenShelterCenters(zone: String): Observable<CategoryDataDTO> {
-        return api.getChildrenShelterCenters(zone).doOnNext {
-            dbClient.saveCenterCategoryDataModel(it)
-        }.map { categoryDataMapper.map("CHILDREN_SHELTER", zone, it) }
+    private fun getChildrenShelters(zone: String): Observable<CategoryDataDTO> {
+        return api.getChildrenShelterCenters(zone)
+            .doOnSuccess {
+                if (it.centers.isNotEmpty()) dbClient.saveCenterCategoryDataModel(it)
+            }
+            .onErrorResumeNext(getDBChildrenShelterCenters(zone))
+            .toObservable()
+            .flatMap {
+                if (it.centers.isEmpty()) Observable.empty<CategoryDataDTO?>()
+                else Observable.just(categoryDataMapper.map("CHILDREN_SHELTER", zone, it))
+            }
     }
 
     private fun getDBChildrenShelterCenters(zone: String) =
-        Observable.create<CategoryDataDTO> { emitter ->
+        Single.create<CategoryDataModel> { emitter ->
             run {
-                val entity =
-                    dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "CHILDREN_SHELTER")
-                entity?.let {
-                    val model = categoryDataMapper.map("CHILDREN_SHELTER", zone, entity)
-                    emitter.onNext(model)
-                } ?: run {
+                dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "CHILDREN_SHELTER")
+                    ?.let {
+                        emitter.onSuccess(it)
+                    } ?: run {
                     emitter.onError(Throwable("El recurso al que ha intentado acceder no está disponible en estos momentos"))
                 }
-
             }
         }
 
-    private fun getAPISocialServicesCenters(zone: String): Observable<CategoryDataDTO> {
-        return api.getSocialServicesCenters(zone).doOnNext {
-            dbClient.saveCenterCategoryDataModel(it)
-        }.map { categoryDataMapper.map("SOCIAL_SERVICES", zone, it) }
+    private fun getSocialServicesCenters(zone: String): Observable<CategoryDataDTO> {
+        return api.getSocialServicesCenters(zone)
+            .doOnSuccess {
+                if (it.centers.isNotEmpty()) dbClient.saveCenterCategoryDataModel(it)
+            }
+            .onErrorResumeNext(getDBSocialServicesCenters(zone))
+            .toObservable()
+            .flatMap {
+                if (it.centers.isEmpty()) Observable.empty<CategoryDataDTO?>()
+                else Observable.just(categoryDataMapper.map("SOCIAL_SERVICES", zone, it))
+            }
     }
 
     private fun getDBSocialServicesCenters(zone: String) =
-        Observable.create<CategoryDataDTO> { emitter ->
+        Single.create<CategoryDataModel> { emitter ->
             run {
-                val entity =
-                    dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "SOCIAL_SERVICES")
-                entity?.let {
-                    val model = categoryDataMapper.map("SOCIAL_SERVICES", zone, entity)
-                    emitter.onNext(model)
-                } ?: run {
+                dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "SOCIAL_SERVICES")
+                    ?.let {
+                        emitter.onSuccess(it)
+                    } ?: run {
                     emitter.onError(Throwable("El recurso al que ha intentado acceder no está disponible en estos momentos"))
                 }
             }
         }
 
-    private fun getAPIDayCareCenters(zone: String): Observable<CategoryDataDTO> {
-        return api.getDayCareCenters(zone).doOnNext {
-            dbClient.saveCenterCategoryDataModel(it)
-        }.map { categoryDataMapper.map("DAY_CARE", zone, it) }
+    private fun getDayCareCenters(zone: String): Observable<CategoryDataDTO> {
+        return api.getDayCareCenters(zone)
+            .doOnSuccess {
+                if (it.centers.isNotEmpty()) dbClient.saveCenterCategoryDataModel(it)
+            }
+            .onErrorResumeNext(getDBDayCareCenters(zone))
+            .toObservable()
+            .flatMap {
+                if (it.centers.isEmpty()) Observable.empty<CategoryDataDTO?>()
+                else Observable.just(categoryDataMapper.map("DAY_CARE", zone, it))
+            }
     }
 
-    private fun getDBDayCareCenters(zone: String) = Observable.create<CategoryDataDTO> { emitter ->
+    private fun getDBDayCareCenters(zone: String) = Single.create<CategoryDataModel> { emitter ->
         run {
-            val entity = dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "DAY_CARE")
-            entity?.let {
-                val model = categoryDataMapper.map("DAY_CARE", zone, entity)
-                emitter.onNext(model)
+            dbClient.findCenterCategoryDataModelByZoneAndCategory(zone, "DAY_CARE")?.let {
+                emitter.onSuccess(it)
             } ?: run {
                 emitter.onError(Throwable("El recurso al que ha intentado acceder no está disponible en estos momentos"))
             }

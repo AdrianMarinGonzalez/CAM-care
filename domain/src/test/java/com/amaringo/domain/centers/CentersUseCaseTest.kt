@@ -4,6 +4,7 @@ import com.amaringo.domain.base.Subscriber
 import com.amaringo.domain.model.CategoryDataDTO
 import com.amaringo.domain.model.CenterDetailDTO
 import io.reactivex.Observable
+import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import org.koin.core.component.inject
@@ -31,7 +32,7 @@ class CentersUseCaseTest : BaseUseCaseTest() {
         }
 
         single {
-            CentersUseCase(get(), get(), get())
+            CentersUseCase(get(), get())
         }
     }
 
@@ -61,7 +62,7 @@ class CentersUseCaseTest : BaseUseCaseTest() {
     fun `geCenter should retrieve center from repository`() {
         val mockDTO = CenterDetailDTO("title", "schedule", "address", "description")
         val mockUrl = "mockUrl"
-        val mockRepositoryResponse = Observable.just(mockDTO)
+        val mockRepositoryResponse = Single.just(mockDTO)
         val mockRepository: CentersRepository by inject()
         `when`(mockRepository.getCenter(mockUrl)).thenReturn(mockRepositoryResponse)
         val mockSubscriber: Subscriber<CenterDetailDTO> by inject(qualifier = named("CenterDetailDTOSubscriber"))

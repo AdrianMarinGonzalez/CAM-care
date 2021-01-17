@@ -20,8 +20,8 @@ class CenterCategoryListViewModel(
     private val _centersData = MutableLiveData<MutableList<CenterCategory>>(mutableListOf())
     val centersData: LiveData<MutableList<CenterCategory>> = _centersData
 
-    fun getCenters() {
-        getCentersUseCase.getCategories("CENTRO", createObserver(
+    fun getCenters(zone: String) {
+        getCentersUseCase.getCategories(zone, createObserver(
             onDataReceived = {
                 val currentCenters = _centersData.value
                 currentCenters!!.add(centerMapper.map(it))

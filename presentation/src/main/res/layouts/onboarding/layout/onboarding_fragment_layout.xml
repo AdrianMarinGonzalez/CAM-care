@@ -15,38 +15,61 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/colorPrimary"/>
-
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:layout_marginTop="64dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="34dp"
             android:src="@drawable/app_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/welcome_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="96dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:text="@string/onboarding_message"
             android:textAlignment="center"
-            android:textSize="20dp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/logo" />
 
+        <TextView
+            android:id="@+id/zone_selection_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/zone_selection_message"
+            android:textAlignment="textStart"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/welcome_message"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/zone_selection_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/zone_selection_message"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:spinnerMode="dropdown"
+            android:layout_margin="16dp"
+            android:dropDownVerticalOffset="48dp"
+            android:popupElevation="8dp"
+            android:overScrollMode="never"
+            android:popupTheme="@style/SpinnerPopUp"
+            android:background="@color/transparent"/>
+
         <Button
+            android:id="@+id/continue_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
