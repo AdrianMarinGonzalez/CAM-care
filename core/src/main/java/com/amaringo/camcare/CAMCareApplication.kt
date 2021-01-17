@@ -11,7 +11,7 @@ class CAMCareApplication: MultiDexApplication() {
         super.onCreate()
         startKoin {
             androidContext(this@CAMCareApplication)
-            modules(appModule, data)
+            modules(businessModule, dataModule, presentationModule)
         }
     }
 }

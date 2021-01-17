@@ -12,6 +12,7 @@ class CenterViewHolder(private val itemBinding: CenterCategoryItemLayoutBinding)
         onItemSelected: (Center) -> Unit
     ) {
         itemBinding.category.text = center.title
+        itemBinding.icon.setImageResource(center.icon)
         itemBinding.root.setOnClickListener { onItemSelected.invoke(center) }
     }
 }

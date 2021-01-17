@@ -4,24 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.amaringo.presentation.R
 import com.amaringo.presentation.common.addLifecyclerObserver
-import com.amaringo.presentation.model.ScreenFlowState
-import org.koin.core.context.loadKoinModules
-import org.koin.core.module.Module
+import com.amaringo.presentation.model.Error
 
 
 abstract class BaseFragment<V: BaseViewModel, T : ViewDataBinding> : Fragment() {
 
     protected lateinit var dataBinding: T
     protected lateinit var viewModel: V
-
-    abstract fun getInjectionModules(): List<Module>
 
     @LayoutRes
     abstract fun getLayoutId(): Int
@@ -30,10 +28,7 @@ abstract class BaseFragment<V: BaseViewModel, T : ViewDataBinding> : Fragment() 
 
     abstract fun setBinding()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        loadKoinModules(mainModule + getInjectionModules())
-    }
+    abstract fun showError(error: Error)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,18 +44,30 @@ abstract class BaseFragment<V: BaseViewModel, T : ViewDataBinding> : Fragment() 
             setupObservers()
         }.root
 
+    private fun setupObservers() {
+        addLifecyclerObserver(viewModel.error) {
+            showError(it)
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         viewModel.onDestroy()
     }
 
-    private fun setupObservers() {
-        addLifecyclerObserver(viewModel.screenState) {
-            when(it) {
-                // is ScreenFlowState.NavigateToCenterCategoryDetail -> findNavController().navigate(R.id.center_category_detail)
-            }
-        }
+    protected fun navigateTo(@IdRes destination: Int, @IdRes popUpTo: Int, args: Bundle) {
+        val options = NavOptions.Builder().apply {
+            setEnterAnim(R.anim.slide_in_right)
+            setExitAnim(R.anim.slide_out_left)
+            setPopEnterAnim(R.anim.slide_in_left)
+            setPopExitAnim(R.anim.slide_out_right)
+            setPopUpTo(popUpTo, false)
+        }.build()
+        findNavController().navigate(destination, args, options)
+
     }
 
-
+    protected fun navigateBack(){
+        findNavController().popBackStack()
+    }
 }

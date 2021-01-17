@@ -2,31 +2,38 @@ package com.amaringo.data.carecenter.db
 
 import android.content.Context
 import androidx.room.Room
-import com.amaringo.data.carecenter.db.model.CenterCategoryDataMapper
+import com.amaringo.data.carecenter.db.model.CategoryDataMapper
 import com.amaringo.data.carecenter.db.model.CenterCategoryEntity
-import com.amaringo.data.carecenter.model.CenterCategoryDataModel
+import com.amaringo.data.carecenter.db.model.CenterEntity
+import com.amaringo.data.carecenter.db.model.CenterMapper
+import com.amaringo.data.carecenter.model.CategoryDataModel
+import com.amaringo.data.carecenter.model.CenterDetailModel
 
-class CAMCareDatabaseClient(applicationContext: Context, val mapper: CenterCategoryDataMapper) {
+class CAMCareDatabaseClient(
+    applicationContext: Context,
+    val categoryMapper: CategoryDataMapper,
+    val centerMapper: CenterMapper
+) {
+
     private val db = Room.databaseBuilder(
         applicationContext,
         CAMCareDatabase::class.java, "camcaredb"
     ).build()
 
-    fun getCenterCategoryDataModelByZoneAndCategory(
+    fun findCenterCategoryDataModelByZoneAndCategory(
         zone: String,
         category: String
-    ): CenterCategoryDataModel {
+    ): CategoryDataModel? {
         val dao = db.centerCategoryDao()
-        val entity = dao.findCategoryDataByZoneAndCategory(zone, category).also {
+        val entity = dao.findCategoryDataByZoneAndCategory(zone, category)?.also {
             it.centers = dao.loadCentersFromCategory(it.uid)
         }
-        val dto = mapper.map(category, zone, entity)
-        return dto
+        entity?.let { return categoryMapper.map(category, zone, entity) } ?: return null
     }
 
-    fun saveCenterCategoryDataModel(model: CenterCategoryDataModel) {
+    fun saveCenterCategoryDataModel(model: CategoryDataModel) {
         val dao = db.centerCategoryDao()
-        val entity = mapper.map(model)
+        val entity = categoryMapper.map(model)
         val insertedId = dao.insertCategoryData(entity)
         saveCentersForCategory(insertedId ,entity.centers)
     }
@@ -38,6 +45,18 @@ class CAMCareDatabaseClient(applicationContext: Context, val mapper: CenterCateg
         val dao = db.centerCategoryDao()
         centers.forEach{ center: CenterCategoryEntity -> center.categoryId = categoryId }
         dao.insertCenters(centers)
+    }
+
+    fun saveCenterModel(model: CenterDetailModel) {
+        val dao = db.centerDao()
+        val entity = centerMapper.map(model)
+        dao.insert(entity)
+    }
+
+    fun findCenterByUrl(url: String): CenterDetailModel? {
+        val dao = db.centerDao()
+        val entity = dao.findByUrl(url)
+        entity?.let { return centerMapper.map(entity) } ?: return null
     }
 
 

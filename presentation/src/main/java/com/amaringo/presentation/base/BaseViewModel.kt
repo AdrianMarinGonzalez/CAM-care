@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.amaringo.domain.base.Subscriber
 import com.amaringo.presentation.common.Action
 import com.amaringo.presentation.common.Failure
-import com.amaringo.presentation.model.ScreenFlowState
+import com.amaringo.presentation.model.Error
 
 abstract class BaseViewModel : ViewModel() {
 
-    protected var _screenState = MutableLiveData<ScreenFlowState>()
-    val screenState: LiveData<ScreenFlowState> = _screenState
+    protected val _error = MutableLiveData<Error>()
+    val error: LiveData<Error> = _error
 
     open fun onDestroy() {}
 

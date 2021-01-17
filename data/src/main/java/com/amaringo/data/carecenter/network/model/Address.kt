@@ -1,7 +1,7 @@
 package com.amaringo.data.carecenter.network.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Address(
-    val area: String,
-    val district: String,
-    val locality: String
+    @SerializedName("street-address") val street: String
 )

@@ -32,7 +32,8 @@ android {
             'src/main/res',
             'src/main/res/layouts/onboarding',
             'src/main/res/layouts/main',
-            'src/main/res/layouts/center_list'
+            'src/main/res/layouts/center_list',
+            'src/main/res/layouts/center_detail'
     ]
 }
 

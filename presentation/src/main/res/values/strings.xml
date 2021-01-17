@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">MadridServices</string>
+  <string name="app_name">CAM Care</string>
 
   <string name="onboarding_message">Bienvenido a CAM Care, la app en la que encontrarás los centros que cuidan de los que más te importan</string>
   <string name="onboarding_button">Comenzar</string>
@@ -9,4 +9,7 @@
   <string name="children_shelter_category">Centros de Atención para Menores y Familia</string>
   <string name="senior_category">Centros Municipales de Mayores</string>
   <string name="other_category">Otros</string>
+
+  <string name="generic_error">Ups! Parece que algo ha ido mal</string>
+  <string name="continue_button">Continuar</string>
 </resources>
